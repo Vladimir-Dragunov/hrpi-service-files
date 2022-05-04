@@ -1,0 +1,25 @@
+[Unit]
+Documentation=man:systemd-sysv-generator(8)
+SourcePath=/etc/init.d/fail2ban-server
+Description=LSB: Start/Stop fail2ban
+After=remote-fs.target
+After=time-sync.target
+After=network-online.target
+After=nftables.service
+After=firehol.service
+After=shorewall.service
+After=ferm.service
+Wants=network-online.target
+
+[Service]
+Type=forking
+Restart=no
+TimeoutSec=5min
+IgnoreSIGPIPE=no
+KillMode=process
+GuessMainPID=no
+RemainAfterExit=yes
+SuccessExitStatus=5 6
+ExecStart=/etc/init.d/fail2ban-server start
+ExecStop=/etc/init.d/fail2ban-server stop
+ExecReload=/etc/init.d/fail2ban-server reload
